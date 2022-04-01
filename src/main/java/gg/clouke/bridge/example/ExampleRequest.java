@@ -1,6 +1,8 @@
 package gg.clouke.bridge.example;
 
 import gg.clouke.bridge.Bridge;
+import gg.clouke.bridge.relay.BridgeRequest;
+import gg.clouke.bridge.relay.Packet;
 
 /**
  * @author Clouke
@@ -12,12 +14,15 @@ public class ExampleRequest {
     /**
      * <p> Example request. </p>
      * Serialize an object to strings and send it to Bridge, which where you can deserialize it.
-     * @param message The message to send over to Bridge
      */
-    public void sendPacket(String message) {
+    public void sendPacket() {
         Bridge bridge = ExamplePlugin.getInstance().getBridge();
 
-        bridge.publish(message);
+        String packet = new BridgeRequest(Packet.TEST_PACKET)
+                .setParam("MESSAGE", "Hello World!")
+                .toJson();
+
+        bridge.publish(packet);
     }
 
 }
