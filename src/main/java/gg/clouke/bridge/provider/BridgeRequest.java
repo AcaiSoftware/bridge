@@ -1,10 +1,12 @@
-package gg.clouke.bridge.relay;
+package gg.clouke.bridge.provider;
 
-import com.google.gson.Gson;
+import gg.clouke.bridge.Packet;
+import gg.clouke.bridge.example.ExamplePlugin;
 import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Clouke
@@ -54,17 +56,14 @@ public class BridgeRequest {
      * Remove the key from the parameters
      */
     public void removeParam(String key) {
-        if (this.containsParam(key)) {
-            this.params.remove(key);
-        }
+        Optional.of(this.containsParam(key)).ifPresent(e -> this.params.remove(key));
     }
 
     /**
-     * <p>
-     * Convert the request to a json string
+     * @return Returns the serialized request to Json
      */
     public String toJson() {
-        return new Gson().toJson(this);
+        return ExamplePlugin.getInstance().getGson().toJson(this);
     }
 
 }
