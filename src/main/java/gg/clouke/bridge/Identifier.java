@@ -1,7 +1,5 @@
 package gg.clouke.bridge;
 
-import gg.clouke.bridge.relay.Packet;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -18,7 +16,7 @@ public @interface Identifier {
      * Packet Identifier
      * @return {@link Packet}
      */
-    public Packet type();
+    Packet type();
 
 }
 
