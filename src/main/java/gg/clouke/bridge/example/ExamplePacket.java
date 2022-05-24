@@ -2,8 +2,8 @@ package gg.clouke.bridge.example;
 
 import gg.clouke.bridge.BridgeCallable;
 import gg.clouke.bridge.Identifier;
-import gg.clouke.bridge.relay.BridgeRequest;
-import gg.clouke.bridge.relay.Packet;
+import gg.clouke.bridge.provider.BridgeRequest;
+import gg.clouke.bridge.Packet;
 
 /**
  * @author Clouke
@@ -20,7 +20,7 @@ public class ExamplePacket implements BridgeCallable {
      * @param request {@link BridgeRequest}
      */
     @Override
-    public void request(Packet packet, BridgeRequest request) {
+    public void onRequest(Packet packet, BridgeRequest request) {
         String message = request.getParam("MESSAGE");
         System.out.println("request=" + message);
     }
