@@ -1,9 +1,11 @@
 package gg.clouke.bridge;
 
+import com.google.common.base.Preconditions;
 import gg.clouke.bridge.command.BridgeCommand;
 import gg.clouke.bridge.example.ExamplePlugin;
-import gg.clouke.bridge.relay.BridgeRequest;
-import gg.clouke.bridge.relay.Packet;
+import gg.clouke.bridge.provider.BridgeRequest;
+import gg.clouke.bridge.thread.BridgeThread;
+import gg.clouke.bridge.thread.impl.StandardBridgeThread;
 import lombok.Getter;
 import redis.clients.jedis.Jedis;
 
@@ -18,12 +20,14 @@ import java.util.List;
 @Getter
 public class Bridge {
 
-    private final List<BridgeCallable> packets;
     private final ExamplePlugin plugin;
+    private final List<BridgeCallable> packets;
+    private final BridgeThread thread;
 
     public Bridge() {
-        this.packets = new ArrayList<>();
         this.plugin = ExamplePlugin.getInstance();
+        this.packets = new ArrayList<>();
+        this.thread = new StandardBridgeThread(3); // Amount of threads to run in parallel (3)
     }
 
     /**
@@ -31,6 +35,7 @@ public class Bridge {
      * @param bridge {@link BridgeCallable}
      */
     public void register(BridgeCallable bridge) {
+        Preconditions.checkState(!this.packets.contains(bridge), "BridgeCallable already registered");
         this.packets.add(bridge);
     }
 
@@ -40,9 +45,10 @@ public class Bridge {
      * @param request {@link BridgeRequest}
      */
     public void call(Packet packet, BridgeRequest request) {
+        Preconditions.checkNotNull(request, "Request cannot be null");
         this.packets.stream()
                 .filter(p -> p.type().equals(packet))
-                .forEach(handler -> handler.request(packet, request));
+                .forEach(handler -> handler.onRequest(packet, request));
     }
 
     /**
@@ -56,12 +62,13 @@ public class Bridge {
     /**
      * Run a Redis Command
      * @param command {@link BridgeCommand<E>}
-     * @return Returns the Bridge result
      */
-    public <E> E execute(BridgeCommand<E> command) {
-        final Jedis jedis = this.plugin.getRedis().getJedisPool().getResource();
-
-        return command.execute(jedis); // might implement callback
+    public <E> void execute(BridgeCommand<E> command) {
+        try (Jedis jedis = this.plugin.getRedis().getPool()) {
+            command.execute(jedis);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
