@@ -1,4 +1,4 @@
-package gg.clouke.bridge.relay;
+package gg.clouke.bridge;
 
 /**
  * @author Clouke
