@@ -14,9 +14,7 @@ public class ExampleCommand {
      * @param value The value
      */
     public void cache(String key, String field, String value) {
-        ExamplePlugin.getInstance().getBridge().execute(bridge -> {
-            return bridge.hset(key, field, value);
-        });
+        ExamplePlugin.getInstance().getBridge().execute(bridge -> bridge.hset(key, field, value));
     }
 
 }
