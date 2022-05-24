@@ -1,8 +1,8 @@
 package gg.clouke.bridge.example;
 
 import gg.clouke.bridge.Bridge;
-import gg.clouke.bridge.relay.BridgeRequest;
-import gg.clouke.bridge.relay.Packet;
+import gg.clouke.bridge.provider.BridgeRequest;
+import gg.clouke.bridge.Packet;
 
 /**
  * @author Clouke
