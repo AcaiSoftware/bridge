@@ -14,6 +14,6 @@ public interface BridgeCommand<E> {
      * Bridge Task enforcement
      * @param p {@link Jedis}
      */
-    public E execute(Jedis p);
+    void execute(Jedis p);
 
 }
