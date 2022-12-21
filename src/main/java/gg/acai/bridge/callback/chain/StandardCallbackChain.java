@@ -1,8 +1,8 @@
-package gg.clouke.bridge.callback.chain;
+package gg.acai.bridge.callback.chain;
 
 import com.google.common.base.Preconditions;
-import gg.clouke.bridge.callback.Callback;
-import gg.clouke.bridge.provider.BridgeRequest;
+import gg.acai.bridge.callback.Callback;
+import gg.acai.bridge.io.BridgePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +38,20 @@ public class StandardCallbackChain implements CallbackChain {
     }
 
     @Override
-    public void fire(BridgeRequest request, boolean success) {
+    public void fire(BridgePacket request, boolean success) {
         Preconditions.checkNotNull(request, "Request cannot be null");
         this.listeners.stream()
                 .filter(Callback::isAwaitingRequest)
+                .forEach(subscriber -> subscriber.onCallback(request, success));
+    }
+
+    @Override
+    public void fire(String identifier, BridgePacket request, boolean success) {
+        Preconditions.checkNotNull(request, "Request cannot be null");
+        this.listeners.stream()
+                .filter(Callback::isAwaitingRequest)
+                .filter(Callback::hasIdentifier)
+                .filter(callback -> callback.getIdentifier().value().equals(identifier))
                 .forEach(subscriber -> subscriber.onCallback(request, success));
     }
 }
