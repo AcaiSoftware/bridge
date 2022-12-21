@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>gg.clouke</groupId>
-    <artifactId>Bridge</artifactId>
-    <version>3.0</version>
+    <groupId>gg.acai</groupId>
+    <artifactId>bridge</artifactId>
+    <version>3.0.1</version>
     <packaging>jar</packaging>
 
     <name>Bridge</name>
@@ -54,53 +54,36 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
-
-        <!-- Spigot -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+        <dependency> <!-- Acava -->
+            <groupId>gg.acai</groupId>
+            <artifactId>acava-common</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
 
-        <!-- Google Json -->
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
+        <dependency> <!-- Guava -->
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
         </dependency>
 
-        <!-- Json -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20220320</version>
-        </dependency>
-
-        <!-- Redis -->
-        <dependency>
+        <dependency> <!-- Redis -->
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>4.2.3</version>
+            <version>4.3.1</version>
         </dependency>
 
-        <!-- Lombok -->
-        <dependency>
+        <dependency> <!-- Lombok -->
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 </project>
