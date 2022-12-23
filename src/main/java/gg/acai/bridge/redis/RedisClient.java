@@ -107,6 +107,10 @@ public class RedisClient implements RedisComponent {
     public void close() {
         synchronized (this) {
             if (active) {
+                agents.forEach(agent -> {
+                    JedisPubSub sub = agent.pubSub();
+                    if (sub != null) sub.unsubscribe();
+                });
                 pool.close();
                 active = false;
             }
